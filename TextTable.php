@@ -3,15 +3,17 @@
 
 class TextTable
 {
-	private $col = array();
+	private $col = null;
 	
-	private $row = array();
-	
-	private $colC = null;
-	
-	private $rowC = null;
+	private $row = null;
 	
 	private $pad = null;
+	
+	private $borderd = null;
+	
+	private $line_type = '<br />';
+	
+	private $pad_type = '&nbsp;';
 	
 	private $_cat = '+';
 	
@@ -19,35 +21,26 @@ class TextTable
 	
 	private $_sep = '-';
 	
-	private $row_col = null;
-	
 	private $data = array();
 	
-	private $looped = null;
+	private $last = array();
 	
-	private $line_type = null;
+	private $count = array();
 	
-	private $pad_type = null;
-	
-	private $widths = array();
-	
-	private $count = 1;
+	private $to_file = false;
 	
 	public function __construct($row, $col, $padding = 1)
 	{
-		$this->rowC = $row;
-		$this->colC = $col;
+		$this->row = $row;
+		$this->col = $col;
 		$this->pad = $padding;
 	}
 	
 	public function config($config = array())
 	{
 		if (array_key_exists('type', $config)) {
-			if (in_array($config['type'], array('html', 'HTML'))) {
-				$this->line_type = '<br />';
-				$this->pad_type = '&nbsp;';
-			}
-			elseif (in_array($config['type'], array('log', 'file'))) {
+			if ($config['type'] == 'file') {
+				$this->to_file = true;
 				$this->line_type = PHP_EOL;
 				$this->pad_type = ' ';
 			}
@@ -56,8 +49,14 @@ class TextTable
 			$this->line_type = $config['line'];	
 		}
 		
-		if (array_key_exists('padding', $config)) {
+		if (array_key_exists('padding', $config)
+			&& trim($config['padding']) != false) {
+			
 			$this->pad_type = $config['padding'];	
+		}
+		if (array_key_exists('border', $config)
+			&& $config['border'] > 0) {
+				$this->borderd = ' ';
 		}
 	}
 	
@@ -71,67 +70,119 @@ class TextTable
 	
 	private function makeHead($limit)
 	{
+		$limit += $this->pad * 2;
 		return str_repeat($this->_sep, $limit);
 	}
 	
-	private function makeBody($string, $length)
+	private function makeBody($string = '', $length, $used)
 	{
-		return str_pad($string, $length, '~', STR_PAD_BOTH);
+		$length += $this->pad * 2;
+		unset($this->count[$used]);
+		if ($string) {
+			return $this->_apd
+				   . str_pad($string, $length, '~', STR_PAD_BOTH);
+		}
+		return '~' . str_pad($string, $length, '~', STR_PAD_BOTH);
 	}
 	
-	private function buildPrototype($row, $col)
+	private function getSize($data)
 	{
-		$built = $top = null;
-		for ($c = 1; $c <= $this->rowC; $c++) {
-			for ($i = 1; $i <= $this->colC; $i++) {
-				if (isset($this->data[$c . ',' . $i])) {
-					$data = $this->data[$c . ',' . $i];
-					$length = strlen($data);
-					if ($this->pad > 0 ) {
-						$length += $this->pad * 2;	
-					}
-					$top .= $this->_cat . $this->makeHead($length);
-					$built .= $this->_apd . $this->makeBody($data, $length);
-					
-					var_dump($i . ' ' . $this->colC);
-					if ($i == $this->colC) {
-						$built = $top . $this->_cat . '<br/>' . $built . $this->_apd ;
-						$top = null;
-						
-					}
+		$current = preg_replace('/\d+[,]/', "%", $data);
+		if (array_key_exists($current, $this->last)){
+			return $this->last[$current];
+		}
+	}
+
+	
+	private function buildPrototype()
+	{
+		$init = $this->make();
+		$i = 1;
+		$looped = array();
+		foreach ($this->data as $keys => $count) {
+			(int) $key = ltrim(strstr($keys, ','), ',');
+			if ($key == $i) {
+				$size = strlen($count);
+				
+				if (array_key_exists('%' . $i, $looped)) {
+					$looped['%' . $i] = $this->getMax($looped['%' . $i],
+											$size
+										);
+				}
+				else {
+					$looped['%' . $i] = strlen($count);	
 				}
 			}
-		}
-		return $built;
-	}
-	
-	private function make($built)
-	{
-		$made = null;
-		for ($c = 1; $c <= $this->rowC; $c++) {
-			for ($i = 1; $i <= $this->colC; $i++) {
-				$made .= $this->_apd . '[' . $c . 'x' . $i . ']';
+			if ($i == $this->col) {
+				$i = 0;	
 			}
+			$i++;
 		}
-		
-		//var_dump($made);
+		$this->last = $looped;
+		$init = str_replace(array_keys($looped), array_map(
+									array($this, 'makeHead'),
+									array_values($looped)), $init
+							);
+							
+		$init = str_replace(
+					array_keys($this->data),
+					array_map(array($this, 'makeBody'),
+							array_values($this->data),
+							array_map(array($this, 'getSize'),
+								array_keys($this->data)),
+								array_keys($this->data)), $init
+					);
+				
+		$init = str_replace(
+					array_keys($this->count),
+					array_map(array($this, 'makeBody'),
+						array_values($this->count),
+							array_map(array($this, 'getSize'),
+							array_keys($this->count)),
+							array_keys($this->count)), $init
+					);
+		return $init;
+	
 	}
 	
-	private function loop()
+	private function make()
 	{
-		$this->looped = $this->buildPrototype($this->row, $this->col);
+		$inj = $data = null;
+		$data_map = array();
+		for ($c = 1; $c <= $this->row; $c++) {
+			$last = $data = null;
+			for ($i = 1; $i <= $this->col; $i++) {
+				$last .= $this->_cat  . '%' . $i;
+				$inj .= $this->_cat  . '%' . $i;
+				$data .=  $c . ',' . $i;
+				$this->count[$c . ',' . $i] = '';
+				if ( ! isset($this->data[$c . ',' . $i])) {
+					$data_map[$c . ',' . $i] = $this->borderd;
+				}
+				else {
+					$data_map[$c . ',' . $i] = $this->data[$c . ',' . $i];
+				}
+			}
+			$inj .= $this->_cat . '<br/>';
+			$inj .= $data . $this->_apd . '<br/>';
+		}
+		$this->data = $data_map;
+		$inj .= $last . $this->_cat;
+		return $inj;
 	}
-	
+
 	public function render()
-	{
-		$this->loop();
+	{	
+		$data = $this->buildPrototype();
 		
-		$data = $this->looped;
 		if ($this->line_type) {
 			$data = str_replace('<br/>', $this->line_type, $data);
 		}
 		if ($this->pad_type) {
 			$data = preg_replace('#(?<!/)~#', $this->pad_type, $data);
+		}
+		if ($this->to_file) {
+			return $data;
 		}
 		return '<code>' . $data . '</code>';
 	}
@@ -141,21 +192,13 @@ class TextTable
 		list($row, $col) = explode(',', $row_col);
 		(int) $row = trim($row);
 		(int) $col = trim($col);
-		if ($row > $this->rowC) {
-			die('The Row you are trying modify does not exists <br />
-				Total Table Rows: (' . $this->rowC . ')<br />
-				Selected Row: (' . $row . ')'
-			);
+		if ($row > $this->row) {
+			die('Selected Row wasn\'t created');
 		}
-		elseif ($col > $this->colC) {
-			die('The Column you are trying modify does not exists <br />
-				Total Table Columns: (' . $this->colC . ')<br />
-				Selected Column: (' . $col . ')'
-			);
+		elseif ($col > $this->col) {
+			die('Selected Column wasn\'t created');
 		}
 		else {
-			$this->row[$this->count] = $row;
-			$this->col[$this->count] = $col;
 			$this->data[$row_col] = $data;
 			$this->count++;
 			return $this;

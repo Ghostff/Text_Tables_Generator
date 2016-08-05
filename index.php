@@ -2,16 +2,26 @@
 
 require 'TextTable.php';
 
-$table = new TextTable(2, 3, 2);
+$table = new TextTable(2, 3, 1);
 
-$table->config(array('type' => 'html',
-//					 'padding' => '+'
+$table->config(array(
+//					 'type'		=> 'html',
+					 'border'	=> true,
+//					 'padding'	=> '',
+//					 'line'		=> "<p />",
 			));
 			
 			
-echo $table->put('1,3', 'hey')
-		   ->put('1,2', 'what')
-		   ->put('1,1', 'sup')
-		   ->put('2,1', 'you')
+echo $table->put('1,1', '12345678')
+		   ->put('1,3', 'whatdd')
+		   ->put('2,1', 'am okay you')
+		   ->put('2,3', 'am comming home today so get ready')
 
 	       ->render();
+		   
+/*file_put_contents('text.log', $table->put('1,1', '12345678')
+		   ->put('1,3', 'whatdd')
+		   ->put('2,1', 'am okay you')
+		   ->put('2,3', 'am comming home today so get ready')
+
+	       ->render());*/
