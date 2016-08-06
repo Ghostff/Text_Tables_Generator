@@ -88,6 +88,7 @@ class TextTable
 	private function getSize($data)
 	{
 		$current = preg_replace('/\d+[,]/', "%", $data);
+		$current = str_replace(array('(', ')'), '', $current);
 		if (array_key_exists($current, $this->last)){
 			return $this->last[$current];
 		}
@@ -100,7 +101,8 @@ class TextTable
 		$i = 1;
 		$looped = array();
 		foreach ($this->data as $keys => $count) {
-			(int) $key = ltrim(strstr($keys, ','), ',');
+			(int) $key = rtrim(ltrim(strstr($keys, ','), ','), ')');
+			
 			if ($key == $i) {
 				$size = strlen($count);
 				
@@ -149,18 +151,21 @@ class TextTable
 	{
 		$inj = $data = null;
 		$data_map = array();
+		
 		for ($c = 1; $c <= $this->row; $c++) {
 			$last = $data = null;
 			for ($i = 1; $i <= $this->col; $i++) {
 				$last .= $this->_cat  . '%' . $i;
 				$inj .= $this->_cat  . '%' . $i;
-				$data .=  $c . ',' . $i;
-				$this->count[$c . ',' . $i] = '';
-				if ( ! isset($this->data[$c . ',' . $i])) {
-					$data_map[$c . ',' . $i] = $this->borderd;
+				$data .= '(' . $c . ',' . $i . ')';
+				$this->count['(' . $c . ',' . $i . ')'] = '';
+				if ( ! isset($this->data['(' . $c . ',' . $i . ')'])) {
+					$data_map['(' . $c . ',' . $i . ')'] = 
+						$this->borderd;
 				}
 				else {
-					$data_map[$c . ',' . $i] = $this->data[$c . ',' . $i];
+					$data_map['(' . $c . ',' . $i . ')'] =
+						$this->data['(' . $c . ',' . $i . ')'];
 				}
 			}
 			$inj .= $this->_cat . '<br/>';
@@ -180,6 +185,7 @@ class TextTable
 		}
 		if ($this->pad_type) {
 			$data = preg_replace('#(?<!/)~#', $this->pad_type, $data);
+			$data = str_replace('/~', $this->pad_type . '~', $data);
 		}
 		if ($this->to_file) {
 			return $data;
@@ -193,13 +199,13 @@ class TextTable
 		(int) $row = trim($row);
 		(int) $col = trim($col);
 		if ($row > $this->row) {
-			die('Selected Row wasn\'t created');
+			die('Selected Row('.$row.') was not initialized');
 		}
 		elseif ($col > $this->col) {
-			die('Selected Column wasn\'t created');
+			die('Selected Column('.$col.') was not initialized');
 		}
 		else {
-			$this->data[$row_col] = $data;
+			$this->data['(' . $row_col . ')'] = $data;
 			$this->count++;
 			return $this;
 		}
