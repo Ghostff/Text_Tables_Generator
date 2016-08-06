@@ -188,9 +188,9 @@ class TextTable
 			$data = str_replace('/~', $this->pad_type . '~', $data);
 		}
 		if ($this->to_file) {
-			return $data;
+			return $data . $this->pad_type;
 		}
-		return '<code>' . $data . '</code>';
+		return '<code>' . $data . $this->pad_type . '</code>';
 	}
 	
 	public function put($row_col, $data)
