@@ -30,12 +30,7 @@ Put:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```@param``` string: row,column   
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```@param``` string|int: data
 ```php
-echo $table->put('1,1', 'row 1, col 1')
-           ->put('1,2', 'row 1, col 2')
-           ->put('2,1', 'row 2, col 2')
-           ->put('2,2', 'row 2, col 2')
-           ->render();
-
+echo $table->put('$row,$column', '$data')->render();
 ```
 
 Demo
