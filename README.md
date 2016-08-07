@@ -1,22 +1,22 @@
-# Text_Tables_Generator
+# PHP Text Tables Generator
 
-Initialize:
-   @param Row size
-   @param Column size
-   @param word padding default: 1
+Initialize:  
+   ```@param``` Row size  
+  ```@param``` Column size  
+   ```@param``` word padding default: 1
 ```php
 $table = new TextTable(2, 2, 2);
 ```
 
-Table Configuration:
-type: html/file (used for table displayed in browser/for table that will be writen to a file)
-border: allows assings border to initialized rows and columns
-padding: character used for padding specified string.
-            eg: if padding is '+' all white spaces in string will be replaced with '+'
-                +--------------+                         +--------------+
-                |     r1,c1    | will be replaced with   |+++++r1,c1++++| default: ' '              
-                +--------------+                         +--------------+             
-line: for new line default: ```php '<br />' ```
+Table Configuration:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Keys:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```type```: html/file (used for table displayed in browser/for table that will be writen to a file)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```border```: Allows assings border to initialized rows and columns  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```padding```: Character used for padding specified string.  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Eg: If padding is ```'+'``` all white spaces in string will be replaced with ```'+'```   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;So ```| r1,c1 | ``` will be replaced with  ```|+r1,c1+|``` default: ```' '```              
+           
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```line```: For new line default: ```php '<br />' ```
 
 ```php
 $table->config(array('type'     => 'html',
@@ -26,9 +26,9 @@ $table->config(array('type'     => 'html',
             ));
 ```
 
-Put:
-  @param string: row,column
-  @param string|int: data
+Put:   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```@param``` string: row,column   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```@param``` string|int: data
 ```php
 echo $table->put('1,1', 'row 1, col 1')
            ->put('1,2', 'row 1, col 2')
@@ -41,12 +41,8 @@ echo $table->put('1,1', 'row 1, col 1')
 Demo
 ```php
 require 'TextTable.php';
-
 $table = new TextTable(2, 2, 1);
-
 $table->config(array('border' => 1));
-            
-            
 echo $table->put('1,1', 'row 1, col 1')
            ->put('1,2', 'row 1, col 2')
            ->put('2,1', 'row 2, col 2')
