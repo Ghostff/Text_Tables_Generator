@@ -36,7 +36,7 @@ echo $table->put('$row,$column', '$data')->render();
 Demo
 ```php
 require 'TextTable.php';
-$table = new TextTable(2, 2, 1);
+$table = new TextTable(2, 2);
 $table->config(array('border' => true));
 echo $table->put('1,1', 'row 1, col 1')
            ->put('1,2', 'row 1, col 2')
