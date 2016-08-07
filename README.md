@@ -42,7 +42,7 @@ Demo
 ```php
 require 'TextTable.php';
 $table = new TextTable(2, 2, 1);
-$table->config(array('border' => 1));
+$table->config(array('border' => true));
 echo $table->put('1,1', 'row 1, col 1')
            ->put('1,2', 'row 1, col 2')
            ->put('2,1', 'row 2, col 2')
