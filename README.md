@@ -32,25 +32,26 @@ Put:
 ```php
 echo $table->put('$row,$column', '$data')->render();
 ```
+align:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```@param``` string: L(left) | R(right) default:(middle)
 
 Demo
 ```php
 require 'TextTable.php';
-$table = new TextTable(2, 2);
+$table = new TextTable(2, 2, 2);
 $table->config(array('border' => true));
-echo $table->put('1,1', 'row 1, col 1')
+echo $table->put('1,1', 'row 1, col 2')->align('L')
            ->put('1,2', 'row 1, col 2')
-           ->put('2,1', 'row 2, col 2')
+           ->put('2,1', 'row 2, col 2')->align('L')
            ->put('2,2', 'row 2, col 2')
            ->render();
 ```
 Outputs
 ```php
-
-+--------------+--------------+
-| row 1, col 1 | row 1, col 2 |
-+--------------+--------------+
-| row 2, col 2 | row 2, col 2 |
-+--------------+--------------+ 
++----------------+----------------+
+|row 1, col 2    |  row 1, col 2  |
++----------------+----------------+
+|row 2, col 2    |  row 2, col 2  |
++----------------+----------------+ 
 
 ```
