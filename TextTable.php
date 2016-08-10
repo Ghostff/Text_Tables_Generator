@@ -182,12 +182,11 @@ class TextTable
 		
 		if (isset($this->pad_flag[$used])) {
 			$flag = $this->pad_flag[$used];
-			var_dump($flag);
 			if ($flag == 'L') {
-				$flag = 'STR_PAD_LEFT';
+				$flag = 'STR_PAD_RIGHT';
 			}
 			elseif ($flag == 'R') {
-				$flag = 'STR_PAD_RIGHT';
+				$flag = 'STR_PAD_LEFT';
 			}
 			else {
 				$flag = 'STR_PAD_BOTH';
@@ -382,7 +381,9 @@ class TextTable
 	*/
 	public function align($position)
 	{
-		$key = end(array_keys($this->data));
+		$key = array_keys($this->data);
+		$key = end($key);
+		
 		$this->pad_flag[$key] = $position;
 		return $this;
 	}
