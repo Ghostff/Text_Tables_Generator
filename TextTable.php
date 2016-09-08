@@ -228,26 +228,30 @@ class TextTable
     */
     private function make()
     {
-        $inj = $data = null;
+        $inj = null;
         $data_map = array();
         
         for ($c = 1; $c <= $this->row; $c++) {
-            $last = $data = null;
+			
+            $last = null;
+			$data = null;
+			
             for ($i = 1; $i <= $this->col; $i++) {
+				
                 $last .= $this->_cat  . '%' . $i;
                 $inj .= $this->_cat  . '%' . $i;
                 $key = '(' . $c . ',' . $i . ')';
                 $data .= $key;
                 $this->count[$key] = '';
-                if ( ! isset($this->data[$key])) {
-                    $data_map[$key] = 
-                        $this->borderd;
+				
+                if ( !isset($this->data[$key]) || trim($this->data[$key]) == false) {
+                    $data_map[$key] = $this->borderd;
                 }
                 else {
-                    $data_map[$key] =
-                        $this->data[$key];
+                    $data_map[$key] = $this->data[$key];
                 }
             }
+			
             $inj .= $this->_cat . '<br/>';
             $inj .= $data . $this->_apd . '<br/>';
         }
@@ -266,18 +270,18 @@ class TextTable
     private function buildPrototype()
     {
         $init = $this->make();
+
         $i = 1;
         $looped = array();
         foreach ($this->data as $keys => $count) {
+			
             (int) $key = rtrim(ltrim(strstr($keys, ','), ','), ')');
             
             if ($key == $i) {
                 $size = strlen($count);
                 
                 if (array_key_exists('%' . $i, $looped)) {
-                    $looped['%' . $i] = $this->getMax($looped['%' . $i],
-                                            $size
-                                        );
+                    $looped['%' . $i] = $this->getMax($looped['%' . $i], $size);
                 }
                 else {
                     $looped['%' . $i] = strlen($count);    
@@ -292,27 +296,40 @@ class TextTable
         
         //replaces +%1+<br/> with  +----+<br/>
         $init = str_replace(array_keys($looped), array_map(
-                                    array($this, 'makeHead'),
-                                    array_values($looped)), $init
-                            );
+			array($this, 'makeHead'),
+			array_values($looped)), $init
+		);
+		
         //replaces (1,1) with |data            
         $init = str_replace(
-                    array_keys($this->data),
-                    array_map(array($this, 'makeBody'),
-                            array_values($this->data),
-                            array_map(array($this, 'getSize'),
-                                array_keys($this->data)),
-                                array_keys($this->data)), $init
-                    );
+			array_keys($this->data),
+			array_map(
+				array($this, 'makeBody'),
+				array_values($this->data),
+				array_map(
+					array($this, 'getSize'),
+					array_keys($this->data)
+				),
+				array_keys($this->data)
+			), 
+			$init
+		);
+		
        //replaces xxxx with with the max of lenght.      
         $init = str_replace(
-                    array_keys($this->count),
-                    array_map(array($this, 'makeBody'),
-                        array_values($this->count),
-                            array_map(array($this, 'getSize'),
-                            array_keys($this->count)),
-                            array_keys($this->count)), $init
-                    );
+			array_keys($this->count),
+			array_map(
+				array($this, 'makeBody'),
+				array_values($this->count),
+				array_map(
+					array($this, 'getSize'),
+					array_keys($this->count)
+				),
+				array_keys($this->count)
+			), 
+			$init
+		);
+		
         return $init;
     
     }
@@ -326,24 +343,25 @@ class TextTable
     public function config($config = array())
     {
         if (array_key_exists('type', $config)) {
+			
             if ($config['type'] == 'file') {
                 $this->to_file = true;
                 $this->line_type = PHP_EOL;
                 $this->pad_type = ' ';
             }
+			
         }
+		
         if (array_key_exists('line', $config)) {
             $this->line_type = $config['line'];    
         }
         
-        if (array_key_exists('padding', $config)
-            && trim($config['padding']) != false) {
-            
+        if (array_key_exists('padding', $config) && trim($config['padding']) != false) {
             $this->pad_type = $config['padding'];    
         }
-        if (array_key_exists('border', $config)
-            && $config['border'] > 0) {
-                $this->borderd = ' ';
+		
+        if (array_key_exists('border', $config) && $config['border'] == true) {
+            $this->borderd = ' ';
         }
     }
     
@@ -362,14 +380,17 @@ class TextTable
         if ($this->line_type) {
             $data = str_replace('<br/>', $this->line_type, $data);
         }
+		
         if ($this->pad_type) {
             $data = preg_replace('#(?<!/)~#', $this->pad_type, $data);
             $data = str_replace('/~', $this->pad_type . '~', $data);
         }
+		
         if ($this->to_file) {
-            return $data . $this->pad_type;
+            return $data;
         }
-        return '<code>' . $data . $this->pad_type . '</code>';
+		
+        return '<code>' . $data . '</code>';
     }
     
     /**
@@ -399,8 +420,10 @@ class TextTable
     public function put($row_col, $data)
     {
         list($row, $col) = explode(',', $row_col);
+		
         (int) $row = trim($row);
         (int) $col = trim($col);
+		
         if ($row > $this->row) {
             die('Selected Row('.$row.') was not initialized');
         }

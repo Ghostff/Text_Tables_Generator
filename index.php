@@ -2,19 +2,13 @@
 
 require 'TextTable.php';
 
-$table = new TextTable(2, 2, 2);
 
-$table->config(array('type'     => 'html',
-                     'border'   => 1,
-//                   'padding'  => '',
-//                   'line'     => "<p />",
-            ));
             
-            
-echo $table->put('1,1', 'row 1, col 2')->align('L')
-           ->put('1,2', 'row 1, col 2')
-           ->put('2,1', 'row 2, col 2')->align('L')
-           ->put('2,2', 'row 2, col 2')
+$table = new TextTable(2, 2, 2);
+echo $table->put('1,1', 'Foo')
+           ->put('1,2', 'Bar')
+           ->put('2,1', 'FooBar')->align('R')
+           ->put('2,2', 'BarFoo')->align('L')
            ->render();
            
 /*file_put_contents('text.log', $table->put('1,1', '12345678')
