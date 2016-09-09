@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phpunit boostrap="./vendor/autoload.php" color="true" 
+		 convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+		 stopOnFailure = "false"
+>
+	<testsuites>
+		<testsuite name="Text Table unit test">
+			<directory>./test/</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>
