@@ -1,6 +1,6 @@
 <?php
 
-require 'TextTable.php';
+require 'src/TextTable.php';
 
 
             
