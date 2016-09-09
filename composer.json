@@ -1,0 +1,10 @@
+{
+	"autoload": {
+		"classmap": [
+		  "test/TextTableTest.php"
+		]
+	},
+	"require-dev": {
+        "phpunit/phpunit": "5.5.*"
+    }
+}
