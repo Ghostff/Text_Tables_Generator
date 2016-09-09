@@ -7,7 +7,7 @@
 >
 	<testsuites>
 		<testsuite name="Text Table unit test">
-			<directory>./test/</directory>
+			<directory>./</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>
