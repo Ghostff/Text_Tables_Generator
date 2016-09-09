@@ -1,19 +1,34 @@
 # PHP Text Tables Generator
+Generates a plain text table, which can be copied or writen into any text file, And in some cases rendered to a browser output
 
-[![Build Status](https://travis-ci.org/Ghostff/Text_Tables_Generator.svg?branch=travis)](https://travis-ci.org/Ghostff/Text_Tables_Generator)
-
+[![Build Status](https://travis-ci.org/Ghostff/Text_Tables_Generator.svg?branch=travis)](https://travis-ci.org/Ghostff/Text_Tables_Generator) [![Latest Stable Version](https://img.shields.io/badge/release-v1.0.0-brightgreen.svg)](https://github.com/Ghostff/Text_Tables_Generator/releases) ![License](https://img.shields.io/packagist/l/gomoob/php-pushwoosh.svg) [![Latest Stable Version](https://img.shields.io/badge/packagist-v5.5.4-blue.svg)](https://packagist.org/packages/ghostff/text-tables-generator) [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg)](https://php.net/)
 ----------
 
+#Installation   
+You can download the  Latest [release version ](https://github.com/Ghostff/Text_Tables_Generator/releases/) as a standalone, alternatively you can use [Composer](https://getcomposer.org/) for optional dependencies such as PHPUnit.
+```json
+$ composer require ghostff/text-tables-generator
+```    
+Or add:
+```json
+{
+    "require": {
+        "ghostff/text-tables-generator": "^1.0"
+    }
+}
+```
+to your ``composer.json``
 
-Initialize:  
+--------
+**Initialize**:  
    ```@param``` Row size  
   ```@param``` Column size  
-   ```@param``` word padding default: 1
+   ```@param``` word padding (default: 1)
 ```php
 $table = new TextTable(2, 2, 2);
 ```
 
-Table Configuration:  
+**Table Configuration**:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Keys:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```type```: html/file (used for table displayed in browser or for table(text) that will be writen to a file)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```border```: Assigns right border to initialized rows and colum(including empty columns)
@@ -31,13 +46,13 @@ $table->config(array('type'     => 'html',
             ));
 ```
 
-Put:   
+**Put**:   
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```@param``` string: row,column   
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```@param``` string|int: data
 ```php
 echo $table->put('$row,$column', '$data')->render();
 ```
-align:  
+**align**:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```@param``` string: L(left) | R(right) default:(middle)
 
 Demo
@@ -60,3 +75,5 @@ Outputs
 +----------------+----------------+ 
 
 ```
+ 
+
