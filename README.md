@@ -4,8 +4,23 @@
 
 ----------
 
+#Installation   
+You can download the  Latest [release version ](https://github.com/Ghostff/Text_Tables_Generator/releases/) as a standalone, alternatively you can use [Composer](https://getcomposer.org/) for optional dependencies such as PHPUnit.
+```json
+$ composer require ghostff/text-tables-generator
+```    
+Or add:
+```json
+{
+    "require": {
+        "ghostff/text-tables-generator": "^1.0"
+    }
+}
+```
+to your ``composer.json``
 
-Initialize:  
+--------
+**Initialize**:  
    ```@param``` Row size  
   ```@param``` Column size  
    ```@param``` word padding default: 1
@@ -13,7 +28,7 @@ Initialize:
 $table = new TextTable(2, 2, 2);
 ```
 
-Table Configuration:  
+**Table Configuration**:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Keys:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```type```: html/file (used for table displayed in browser or for table(text) that will be writen to a file)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```border```: Assigns right border to initialized rows and colum(including empty columns)
@@ -31,13 +46,13 @@ $table->config(array('type'     => 'html',
             ));
 ```
 
-Put:   
+**Put**:   
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```@param``` string: row,column   
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```@param``` string|int: data
 ```php
 echo $table->put('$row,$column', '$data')->render();
 ```
-align:  
+**align**:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```@param``` string: L(left) | R(right) default:(middle)
 
 Demo
@@ -60,3 +75,4 @@ Outputs
 +----------------+----------------+ 
 
 ```
+ 
