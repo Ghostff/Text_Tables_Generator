@@ -1,5 +1,10 @@
 # PHP Text Tables Generator
 
+[![Build Status](https://travis-ci.org/Ghostff/Text_Tables_Generator.svg?branch=travis)](https://travis-ci.org/Ghostff/Text_Tables_Generator)
+
+----------
+
+
 Initialize:  
    ```@param``` Row size  
   ```@param``` Column size  
