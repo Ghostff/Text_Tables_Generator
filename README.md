@@ -39,11 +39,12 @@ $table = new TextTable(2, 2, 2);
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```line```: For new line default: ```<br />```
 
 ```php
-$table->config(array('type'     => 'html',
-                     'border'   => 1,
-                     'padding'  => '',
-                     'line'     => "<p />",
-            ));
+$table->config(array(
+    'type'     => 'html',
+     'border'   => 1,
+     'padding'  => '',
+     'line'     => "<p />",
+));
 ```
 
 **Put**:   
