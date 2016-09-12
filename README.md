@@ -40,10 +40,10 @@ $table = new TextTable(2, 2, 2);
 
 ```php
 $table->config(array(
-    'type'     => 'html',
-     'border'   => 1,
-     'padding'  => '',
-     'line'     => "<p />",
+    'type'    => 'html',
+    'border'  => 1,
+    'padding' => '',
+    'line'    => "<p />",
 ));
 ```
 
