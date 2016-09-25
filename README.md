@@ -2,7 +2,6 @@
 Generates a plain text table, which can be copied or writen into any text file, And in some cases rendered to a browser output
 
 [![Build Status](https://travis-ci.org/Ghostff/Text_Tables_Generator.svg?branch=travis)](https://travis-ci.org/Ghostff/Text_Tables_Generator) [![Latest Stable Version](https://img.shields.io/badge/release-v1.0.0-brightgreen.svg)](https://github.com/Ghostff/Text_Tables_Generator/releases) ![License](https://img.shields.io/packagist/l/gomoob/php-pushwoosh.svg) [![Latest Stable Version](https://img.shields.io/badge/packagist-v5.5.4-blue.svg)](https://packagist.org/packages/ghostff/text-tables-generator) [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.3-8892BF.svg)](https://php.net/)
-[![Coverage Status](https://coveralls.io/repos/github/Ghostff/Text_Tables_Generator/badge.svg?branch=master)](https://coveralls.io/github/Ghostff/Text_Tables_Generator?branch=master)
 ----------
 
 #Installation   
