@@ -13,8 +13,6 @@ class TextTable
     /**
     * holds the number of rows that will be generated
     * default: 0
-    * 
-    * 
     */
     private $row = null;
         
@@ -170,7 +168,7 @@ class TextTable
     *
     * return string
     *
-    * @param string|null os string to pad(prepends '|')
+    * @param string|null of string to pad(prepends '|')
     * @param int padding length
     * @param used key
     */
