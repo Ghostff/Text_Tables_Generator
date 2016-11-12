@@ -5,8 +5,6 @@ class TextTable
     /**
     * holds the number of columns that will be generated
     * default: 0
-    * 
-    * 
     */
     private $col = null;
     
@@ -122,22 +120,6 @@ class TextTable
         $this->row = $row;
         $this->col = $col;
         $this->pad = $padding;
-    }
-    
-    /**
-    * get the max of numbers
-    *
-    * return int
-    *
-    * @param int of fisrt number
-    * @param int of second number
-    */
-    private function getMax($last, $new)
-    {
-        if ($new > $last) {
-            $last = $new;    
-        }
-        return $last;
     }
     
     /**
@@ -278,7 +260,7 @@ class TextTable
                 $size = strlen($count);
                 
                 if (array_key_exists('%' . $i, $looped)) {
-                    $looped['%' . $i] = $this->getMax($looped['%' . $i], $size);
+                    $looped['%' . $i] = max($looped['%' . $i], $size);
                 }
                 else {
                     $looped['%' . $i] = strlen($count);    
